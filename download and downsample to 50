@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Run from project root: ~/Majoka
+
+PROJECT_DIR=~/Majoka/polony_wgs
+mkdir -p "$PROJECT_DIR"
+cd "$PROJECT_DIR"
+
+# 1) Download the provided script and run it (it downloads 100 fastqs)
+curl -O https://raw.githubusercontent.com/HackBio-Internship/2025_project_collection/refs/heads/main/SA_Polony_100_download.sh
+chmod +x SA_Polony_100_download.sh
+
+# The download script probably downloads into the current dir or creates data/ -- run it.
+./SA_Polony_100_download.sh
+
+# Assume the script created a data/ dir with FASTQ files named like SRR*.fastq.gz or sample_*.fastq.gz
+DATA_DIR="$PROJECT_DIR/data"
+mkdir -p "$DATA_DIR"
+# If the script downloads to current directory, move *.fastq.gz to data/
+mv *.fastq.gz "$DATA_DIR/" 2>/dev/null || true
+
+cd "$DATA_DIR"
+
+# Create a list of sample base names (assumes filenames with _1/_2 for paired end)
+ls *.fastq.gz | sed -E 's/_R?1.*$//' | sed -E 's/_R?2.*$//' | sed -E 's/\.fastq.*$//' | sort -u > all_samples.txt
+
+# Downsample to 50 samples (random)
+shuf -n 50 all_samples.txt > samples_50.txt
+
+echo "Selected 50 samples (samples_50.txt)."
+wc -l samples_50.txt
