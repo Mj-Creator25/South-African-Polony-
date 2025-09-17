@@ -1,0 +1,35 @@
+ #!/usr/bin/env bash
+set -euo pipefail
+
+# Paths
+PROJECT_DIR=~/Majoka/polony_wgs
+SPADES_OUT="$PROJECT_DIR/spades"               # SPAdes output parent folder
+BLAST_OUT="$PROJECT_DIR/processed/blast"      # Where BLAST results will be saved
+REF_FASTA="$PROJECT_DIR/ref/listeria_refs.fasta"  # Your reference genomes
+
+# Make sure output folder exists
+mkdir -p "$BLAST_OUT"
+
+# Build BLAST database (if not done already)
+if [ ! -f "$PROJECT_DIR/ref/listeria_db.nsq" ]; then
+    echo "Building BLAST database from $REF_FASTA..."
+    makeblastdb -in "$REF_FASTA" -dbtype nucl -out "$PROJECT_DIR/ref/listeria_db"
+fi
+
+# Loop over all contigs.fasta files in SPAdes subfolders
+for contig in "$SPADES_OUT"/*/contigs.fasta; do
+    # Get sample name from folder name
+    sample=$(basename "$(dirname "$contig")")
+    out="$BLAST_OUT/${sample}.blastn.tsv"
+
+    echo "Running BLAST for $sample ..."
+
+    # Run blastn; report best hit per contig
+    blastn -query "$contig" \
+           -db "$PROJECT_DIR/ref/listeria_db" \
+           -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore" \
+           -max_target_seqs 1 \
+           -num_threads 8 > "$out"
+done
+
+echo "BLAST search completed for all samples!"
