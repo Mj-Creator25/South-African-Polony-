@@ -1,0 +1,11 @@
+PROJECT_DIR=~/Majoka/polony_wgs
+SPADES_OUT="$PROJECT_DIR/spades"
+ABRICATE_OUT="$PROJECT_DIR/processed/abricate"
+mkdir -p "$ABRICATE_OUT"
+
+for contig in "$SPADES_OUT"/*/contigs.fasta; do
+    sample=$(basename "$(dirname "$contig")")
+    out="$ABRICATE_OUT/${sample}_abricate.tsv"
+    echo "Running ABRICATE for $sample ..."
+    abricate --db resfinder "$contig" > "$out"
+done
