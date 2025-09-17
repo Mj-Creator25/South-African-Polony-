@@ -1,0 +1,34 @@
+
+PROJECT_DIR=~/Majoka/polony_wgs
+SPADES_OUT="$PROJECT_DIR/spades"
+ABRICATE_OUT="$PROJECT_DIR/processed/abricate"
+mkdir -p "$ABRICATE_OUT"
+
+for contig in "$SPADES_OUT"/*/contigs.fasta; do
+    sample=$(basename "$(dirname "$contig")")
+    out="$ABRICATE_OUT/${sample}_abricate.tsv"
+    echo "Running ABRICATE for $sample ..."
+    abricate --db resfinder "$contig" > "$out"
+done
+#to view the table
+cat ~/Majoka/polony_wgs/processed/abricate_summary.tsv
+#FILE   NUM_FOUND       blaOCH-5_1      fosX_2
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013147_abricate.tsv        1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013245_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   2       100.00  99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013246_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013247_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013248_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013249_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013250_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013251_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013252_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013253_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013254_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013255_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013256_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013257_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013258_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013259_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013260_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013261_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
+/home/teameinstein/Majoka/polony_wgs/processed/abricate/SRR27013262_Genome_Sequencing_of_Listeria_monocytogenes_SA_outbreak_2017_abricate.tsv   1       .       99.75
