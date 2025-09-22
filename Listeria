@@ -1,0 +1,44 @@
+Listeria_WGS_Pipeline/
+│── README.md              # Documentation of your project
+│── scripts/
+│    ├── 01_qc.sh          # QC + trimming
+│    ├── 02_spades.sh      # Assembly
+│    ├── 03_blast.sh       # BLAST species confirmation
+│    ├── 04_abricate_amr.sh # AMR profiling
+│    ├── 05_abricate_vfdb.sh # Virulence screening
+│    └── 06_summary.sh     # Summaries & matrix
+│── results/
+│    ├── abricate_card_summary.tsv
+│    ├── abricate_vfdb_summary.tsv
+│    └── abricate_matrix.tsv
+
+# Listeria monocytogenes WGS Analysis – HackBio Stage 1
+
+This repository contains the Bash scripts and outputs used for analyzing the **2017 South African Polony outbreak** isolates of *Listeria monocytogenes*.  
+The workflow identifies organisms, screens for AMR genes, detects virulence factors, and proposes treatment implications.
+
+---
+
+## 🔬 Pipeline Overview
+
+1. **Quality Control (FastQC / fastp)**
+   - Raw reads assessed for quality, adapters trimmed.
+
+2. **Genome Assembly (SPAdes)**
+   ```bash
+   spades.py -1 sample_1.fastq.gz -2 sample_2.fastq.gz -o spades_output
+#Species confirmation using blast
+blastn -query contigs.fasta -db nt -out blast_results.txt -outfmt 6
+
+#AMR gene profiling
+abricate --db card contigs.fasta > abricate_card_output.tab
+
+#Virulence factor screening
+abricate --db vfdb contigs.fasta > abricate_vfdb_output.tab
+
+#Summaries
+abricate --summary abricate_results/*.tab > abricate_matrix.tsv
+
+
+
+
